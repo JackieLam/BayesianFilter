@@ -1,5 +1,5 @@
 #Bayesian Filtering
-###using web crawlers for learning with big data
+    -- using web crawlers for learning with big data
 
 ## 概述
 本项目使用朴素贝叶斯分类器对用户输入的电影剧情进行分类，以爬虫从豆瓣以及百度百科获取大量数据对分类器进行训练。

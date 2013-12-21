@@ -72,14 +72,13 @@ def createTableWithTokenList(tokenList, tokenTable):
 def catTokenTableToProTable(catTokenTable):
     total = 0
     for token in catTokenTable.keys():
-        if catTokenTable[token] > 800:
+        if catTokenTable[token] < 500 and catTokenTable[token] > 30:
             #print token,catTokenTable[token]
             total += catTokenTable[token]
     catProTable = dict()
     for token in catTokenTable.keys():
-        if catTokenTable[token] > 800:
+        if catTokenTable[token] < 500 and catTokenTable[token] > 30:
             catProTable[token] = catTokenTable[token] / float(total)
-
     return catProTable
 
 #公式一部分
@@ -125,56 +124,61 @@ def ResultFromEveryTokenDict(str, catPHTTable):
         n = (1 - p) * n
         #print "n:", n
     return m / (m + n)
-    #return m
 
 def TestSample(item):
     print "The test story is: "
-    print item
+    print item,
+    print "-----------------------------------------------------------------"
     ScienceProbabilityTable = catPHTTableFromFormulaOne(ScienceCatTable, probability_table_dic)
     ScienceValue = ResultFromEveryTokenDict(item, ScienceProbabilityTable)
-    print "Possibility of being a scientific story: ", ResultFromEveryTokenDict(item, ScienceProbabilityTable)
+
     RomanticProbabilityTable = catPHTTableFromFormulaOne(RomanticCatTable, probability_table_dic)
     RomanticValue = ResultFromEveryTokenDict(item, RomanticProbabilityTable)
-    print "Possibility of being a romantic story: ", ResultFromEveryTokenDict(item, RomanticProbabilityTable)
-    HorrorProbabilityTable = catPHTTableFromFormulaOne(HorrorCatTable, probability_table_dic)
-    HorrorValue = ResultFromEveryTokenDict(item, HorrorProbabilityTable)
-    print "Possibility of being a horrible story: ", ResultFromEveryTokenDict(item, HorrorProbabilityTable)
-    #WarProbabilityTable = catPHTTableFromFormulaOne(WarCatTable, probability_table_dic)
-    #WarValue = ResultFromEveryTokenDict(item, WarProbabilityTable)
-    #print "Possibility of being a war story: ", ResultFromEveryTokenDict(item, WarProbabilityTable)
 
-    if ScienceValue >= RomanticValue and ScienceValue >= HorrorValue:
-        print "This is a scientific story"
+    SuspenseProbabilityTable = catPHTTableFromFormulaOne(SuspenseCatTable, probability_table_dic)
+    SuspenseValue = ResultFromEveryTokenDict(item, SuspenseProbabilityTable)
+
+    print "Possibility of being a scientific story: ", ScienceValue
+    print "Possibility of being a romantic story: ", RomanticValue
+    print "Possibility of being a suspenseful story: ", SuspenseValue
+    print "-----------------------------------------------------------------"
+    print "\n"
+    if ScienceValue >= RomanticValue and ScienceValue >= SuspenseValue:
+
+        print "                 This is a scientific story"
+        print "-----------------------------------------------------------------"
         result = raw_input("Is that right? y/n: ")
         if result == "y":
             ScienceList.append(item)
         else:
-            result = raw_input("What is the correct category? R for romantic & H for horrible: ")
+            result = raw_input("What is the correct category? R for romantic & H for suspenseful: ")
             while result != "R" and result != "H":
-                result = raw_input("Input Error! R for romantic & H for horrible: ")
+                result = raw_input("Input Error! R for romantic & H for suspenseful: ")
             if result == "R":
                 RomanticList.append(item)
             else:
-                HorrorList.append(item)
-    elif RomanticValue >= HorrorValue:
-        print "This is a romantic story"
+                SuspenseList.append(item)
+    elif RomanticValue >= SuspenseValue:
+        print "                 This is a romantic story"
+        print "-----------------------------------------------------------------"
         result = raw_input("Is that right? y/n: ")
         if result == "y":
             RomanticList.append(item)
         else:
-            result = raw_input("What is the correct category? S for scientific & H for horrible: ")
+            result = raw_input("What is the correct category? S for scientific & H for suspenseful: ")
             while result != "S" and result != "H":
-                result = raw_input("Input Error! S for scientific & H for horrible: ")
+                result = raw_input("Input Error! S for scientific & H for suspenseful: ")
             if result == "S":
                 ScienceList.append(item)
             else:
-                HorrorList.append(item)
+                SuspenseList.append(item)
     else:
-        print "This is a horrible story"
+        print "                 This is a suspenseful story"
+        print "-----------------------------------------------------------------"
         result = raw_input("Is that right? y/n: ")
         if result == "y":
-            if item not in HorrorList:
-                HorrorList.append(item)
+            if item not in SuspenseList:
+                SuspenseList.append(item)
         else:
             result = raw_input("What is the correct category? S for scientific & R for romantic: ")
             while result != "S" and result != "R":
@@ -183,30 +187,27 @@ def TestSample(item):
                 ScienceList.append(item)
             else:
                 RomanticList.append(item)
-    print "----------------------------------"
+    print "================================================================="
 
-Romantic = "comedyResultToken.txt"
-Horror = "horrorResultToken.txt"
+Romantic = "RomanticResultToken.txt"
+Suspense = "SuspenseResultToken.txt"
 ScienceFiction = "ScienceResultToken.txt"
-#War = "warResultToken.txt"
-TestFileName = "Sample.txt"
 
 RomanticList = readFileToList(Romantic)
-HorrorList = readFileToList(Horror)
+SuspenseList = readFileToList(Suspense)
 ScienceList = readFileToList(ScienceFiction)
-#WarList = readFileToList(War)
+
+TestFileName = "Sample.txt"
 TestList = readSampleToList(TestFileName)
 
 RomanticCatTable = listToCatTokenTable(RomanticList)
-HorrorCatTable = listToCatTokenTable(HorrorList)
+SuspenseCatTable = listToCatTokenTable(SuspenseList)
 ScienceCatTable = listToCatTokenTable(ScienceList)
-#WarCatTable = listToCatTokenTable(WarList)
 
 probability_table_dic = dict()
 probability_table_dic['RomanticMovie'] = RomanticCatTable
-probability_table_dic['HorrorFilm'] = HorrorCatTable
+probability_table_dic['SuspenseFilm'] = SuspenseCatTable
 probability_table_dic['ScienceFictionFilm'] = ScienceCatTable
-#probability_table_dic["War"] = WarCatTable
 
 #把TestList中的内容加入到一个TestCaseList中
 testCaseList = list()
@@ -221,11 +222,11 @@ if tempString != "":
     testCaseList.append(tempString)
 
 print "Begin the test cases"
-print "----------------------------------"
+print "================================================================="
 for item in testCaseList:
     TestSample(item)
 
 TestCase = raw_input("Enter a testcase or 'exit': ")
 while TestCase != "exit":
     TestSample(TestCase)
-    TestCase = raw_input("Enter a testcase or 'quit': ")
+    TestCase = raw_input("Enter a testcase or 'exit': ")
