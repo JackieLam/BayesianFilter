@@ -5,12 +5,19 @@ from bs4 import BeautifulSoup
 
 pchinese=re.compile(ur'([\u4e00-\u9fa5]+)+?', re.U)
 
+#scratcher.py运行三次，分别取消注释
 f = open("science.txt", "r")
+#f = open("romantic.txt", "r")
+#f = open("suspense.txt", "r")
+
 movieTitleList = list()
 for line in f:
 	movieTitleList.append(line)
 
+#scratcher.py运行三次，分别取消注释
 fw = open("scienceResult", "w")
+#fw = open("romanticResult", "w")
+#fw = open("suspenseResult", "w")
 
 #对于电影title列表文件中每个电影条目
 #访问其百科页面，抽取其中的div.para HTML DOM内容
@@ -23,7 +30,7 @@ for movieTitle in movieTitleList:
 
 	#Get Access to the page
 	req = urllib2.Request(urlString)
-	req.add_header('User-Agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')
+	req.add_header('User-Agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36')
 	webpage = urllib2.urlopen(req)
 	s = webpage.read()
 

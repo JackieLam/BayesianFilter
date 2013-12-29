@@ -4,12 +4,15 @@ import re
 from bs4 import BeautifulSoup
 import sys  
 reload(sys)  
-sys.setdefaultencoding('utf-8') 
+sys.setdefaultencoding('utf-8')
 
 pchinese=re.compile(ur'([\u4e00-\u9fa5]+)+?', re.U)
 pch = re.compile(u'[\u4e00-\u9fa5]+', re.U)
 
+#crawler.py运行三次，分别取消注释
 fw = open('romantic.txt', 'w')
+#fw = open('suspense.txt', 'w')
+#fw = open('science.txt', 'w')
 
 list = []
 for i in range(0,50):
@@ -23,7 +26,7 @@ for i in range(0,50):
 	soup = BeautifulSoup(s)
 	for item in soup.findAll(name="a", attrs={"class":"", "href":re.compile(r"movie.douban.com/subject(\s\w+)?")}):
 		movieTitle = item.contents[0].strip().strip('/').strip()+'\n'
-		print movieTitle
+		print "Crawlled Movie Title: ", movieTitle
 		list.append(movieTitle)
 		fw.write(movieTitle)
 

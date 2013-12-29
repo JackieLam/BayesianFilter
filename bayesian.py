@@ -101,6 +101,7 @@ def catPHTTableFromFormulaOne(catProTable, allCatProTable):
         catPHTTable[key] = catProTable[key] / sumOfCatProTables(key, allCatProTable)
         if catPHTTable[key] == 1:
             catPHTTable[key] = 0.95
+
     return catPHTTable
 
 #公式二部分
@@ -141,6 +142,7 @@ def TestSample(item):
     print "Possibility of being a scientific story: ", ScienceValue
     print "Possibility of being a romantic story: ", RomanticValue
     print "Possibility of being a suspenseful story: ", SuspenseValue
+
     print "-----------------------------------------------------------------"
     print "\n"
     if ScienceValue >= RomanticValue and ScienceValue >= SuspenseValue:

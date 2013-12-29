@@ -31,7 +31,17 @@ def listToCatTokenTable(StringList):
             TokenSum.append(token)
     return TokenSum
 
-Romantic = "scienceresult"
+Romantic = "romanticResult"
 RomanticList = readFileToList(Romantic)
 RomanticTokenSum = listToCatTokenTable(RomanticList)
-writeListToFile(RomanticTokenSum, "testResultToken.txt")
+writeListToFile(RomanticTokenSum, "romanticResultToken.txt")
+
+#Science = "scienceResult"
+#ScienceList = readFileToList(Science)
+#ScienceTokenSum = listToCatTokenTable(ScienceList)
+#writeListToFile(ScienceTokenSum, "scienceResultToken.txt")
+
+#Suspense = "suspenseResult"
+#SuspenseList = readFileToList(Suspense)
+#SuspenseTokenSum = listToCatTokenTable(SuspenseList)
+#writeListToFile(SuspenseTokenSum, "suspenseResultToken.txt")
